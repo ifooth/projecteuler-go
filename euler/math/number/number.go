@@ -1,8 +1,19 @@
 package number
 
 import (
+	"math"
 	"strconv"
 )
+
+// SqrtInt 平方根, 往上取整
+func SqrtInt(num int64) int64 {
+	return int64(math.Ceil(math.Sqrt(float64(num))))
+}
+
+// 指数计算, 整数
+func PowInt(x, y int64) int64 {
+	return int64(math.Pow(float64(x), float64(y)))
+}
 
 func ReverseSlice(values []int64) []int64 {
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {

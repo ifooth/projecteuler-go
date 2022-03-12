@@ -1,6 +1,7 @@
 package number
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,4 +24,11 @@ func TestFactorsGenerator(t *testing.T) {
 	}
 	assert.Equal(t, len(result), 4)
 	assert.Equal(t, result, []int64{1, 2, 2, 3})
+}
+
+func TestProperDivisors(t *testing.T) {
+	result := ProperDivisors(12)
+	fmt.Println(result)
+	assert.Equal(t, len(result), 5)
+	assert.Equal(t, result, []int64{1, 2, 3, 4, 6})
 }

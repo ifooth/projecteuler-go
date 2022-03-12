@@ -2,7 +2,10 @@ package number
 
 import (
 	"context"
+	"fmt"
 	"math"
+
+	"github.com/ifooth/projecteuler-go/euler/math/itertools"
 )
 
 const (
@@ -24,8 +27,7 @@ func IsPrime(num int64) bool {
 	}
 
 	// +2序列必须加1, int向上浮动1
-	limit := int64(math.Floor(math.Sqrt(float64(num))))
-	for i := int64(5); i <= limit; i += 6 {
+	for i := int64(5); i <= SqrtInt(num); i += 6 {
 		if num%i == 0 || num%(i+2) == 0 {
 			return false
 		}
@@ -34,16 +36,7 @@ func IsPrime(num int64) bool {
 	return true
 }
 
-// Factors 因数分解 12 = 1^1 * 2^2 * 3^1
-// return {1: 1, 2: 2, : 3: 1}
-func Factors(num int64) map[int64]int64 {
-	factorMap := map[int64]int64{}
-	for factor := range FactorsGenerator(num) {
-		factorMap[factor] += 1
-	}
-	return factorMap
-}
-
+// PrimeGenerator : 素数迭代器
 func PrimeGenerator(ctx context.Context) <-chan int64 {
 	result := make(chan int64)
 	go func() {
@@ -92,4 +85,47 @@ func FactorsGenerator(num int64) <-chan int64 {
 		}
 	}()
 	return result
+}
+
+// Factors 因数分解 12 = 1^1 * 2^2 * 3^1
+// return {1: 1, 2: 2, : 3: 1}
+func Factors(num int64) map[int64]int64 {
+	factorMap := map[int64]int64{}
+	for factor := range FactorsGenerator(num) {
+		factorMap[factor] += 1
+	}
+	return factorMap
+}
+
+// ProperDivisors 真因子 小于n且整除n的正整数, 不包含自己
+// 12 = [1, 2, 3, 4, 6]
+func ProperDivisors(num int64) []int64 {
+	factorMap := Factors(num)
+	divisorSet := map[int64]struct{}{1: {}}
+
+	fmt.Println(factorMap)
+
+	limit := num / 2
+
+	for prime, power := range factorMap {
+		fmt.Println("prime, power", prime, power)
+		for p := range itertools.IterInt(power + 1) {
+			temp := map[int64]struct{}{}
+			for d := range divisorSet {
+				divisor := d * PowInt(prime, p)
+				if divisor > limit {
+					continue
+				}
+				temp[divisor] = struct{}{}
+				fmt.Println("divisorSet", p, d, divisor, temp)
+			}
+			divisorSet = temp
+		}
+	}
+
+	divisors := make([]int64, len(divisorSet))
+	for d := range divisorSet {
+		divisors = append(divisors, d)
+	}
+	return divisors
 }
