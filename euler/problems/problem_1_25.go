@@ -165,7 +165,7 @@ func Problem9() (result int64) {
 	return
 }
 
-// Problem10 Summation of primes
+// Problem10 : Summation of primes
 // 素数的和
 func Problem10() (result int64) {
 	ctx, cancel := context.WithCancel(context.Background())
@@ -177,5 +177,50 @@ func Problem10() (result int64) {
 		}
 		result += prime
 	}
+	return
+}
+
+// Problem11 : Largest product in a grid
+// 方阵中的最大乘积
+func Problem11() (result int64) {
+	dat, err := assets.GetMatrixInt("problem_11.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	limit := len(dat)
+	for i := 0; i < limit; i++ {
+		for j := 0; j < limit; j++ {
+			// 计算横向
+			if j+3 < limit {
+				t := dat[i][j] * dat[i][j+1] * dat[i][j+2] * dat[i][j+3]
+				if t > result {
+					result = t
+				}
+			}
+			// 计算往下竖向
+			if i+3 < limit {
+				t := dat[i][j] * dat[i+1][j] * dat[i+2][j] * dat[i+3][j]
+				if t > result {
+					result = t
+				}
+			}
+			// 计算右上 45 度
+			if i-3 > 0 && j+3 < limit {
+				t := dat[i][j] * dat[i-1][j+1] * dat[i-2][j+2] * dat[i-3][j+3]
+				if t > result {
+					result = t
+				}
+			}
+			// 计算右下 45 度
+			if i+3 < limit && j+3 < limit {
+				t := dat[i][j] * dat[i+1][j+1] * dat[i+2][j+2] * dat[i+3][j+3]
+				if t > result {
+					result = t
+				}
+			}
+		}
+	}
+
 	return
 }

@@ -7,6 +7,7 @@ import "reflect"
 var Functions = map[string]reflect.Value{
 	"Problem1": reflect.ValueOf(Problem1),
 	"Problem10": reflect.ValueOf(Problem10),
+	"Problem11": reflect.ValueOf(Problem11),
 	"Problem2": reflect.ValueOf(Problem2),
 	"Problem3": reflect.ValueOf(Problem3),
 	"Problem4": reflect.ValueOf(Problem4),

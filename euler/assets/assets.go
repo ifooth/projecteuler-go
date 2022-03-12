@@ -2,6 +2,7 @@ package assets
 
 import (
 	"embed"
+	"strconv"
 	"strings"
 )
 
@@ -23,4 +24,24 @@ func GetTrimString(name string) (string, error) {
 		dat += strings.TrimSpace(v)
 	}
 	return dat, nil
+}
+
+func GetMatrixInt(name string) ([][]int64, error) {
+	asset, err := GetAsset(name)
+	if err != nil {
+		return nil, err
+	}
+	matrix := [][]int64{}
+	for _, v := range strings.Split(string(asset), "\n") {
+		array := []int64{}
+		for _, value := range strings.Split(strings.TrimSpace(v), " ") {
+			a, err := strconv.Atoi(value)
+			if err != nil {
+				return nil, err
+			}
+			array = append(array, int64(a))
+		}
+		matrix = append(matrix, array)
+	}
+	return matrix, nil
 }
