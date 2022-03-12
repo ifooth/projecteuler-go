@@ -18,6 +18,4 @@ Project Euler problem solve by golang
 
 Quick start
 ---------
-
-go run . -n 2 -c
-
+make run ARGS="-n 1 -c"
