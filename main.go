@@ -14,8 +14,9 @@ var (
 	version string
 )
 
-func ParseArgs() int {
+func ParseArgs() (int, bool) {
 	problemId := flag.Int("n", 0, "euler problem num")
+	showContent := flag.Bool("c", false, "show euler problem content")
 	flagVersion := flag.Bool("v", false, "print version")
 
 	flag.Parse()
@@ -30,17 +31,22 @@ func ParseArgs() int {
 		os.Exit(0)
 	}
 
-	return *problemId
+	return *problemId, *showContent
 }
 
 func main() {
-	problemId := ParseArgs()
+	problemId, showContent := ParseArgs()
 	eulerProject := euler.NewEuler()
 	st := time.Now()
+	if showContent {
+		euler.GetProblemContent(problemId)
+		log.Println("show content done", "duration", time.Since(st))
+	}
 	result, err := eulerProject.Calculate(problemId)
 	if err != nil {
 		log.Println(result, "duration", time.Since(st))
 		os.Exit(0)
 	}
 	log.Println(result, "duration", time.Since(st))
+
 }
