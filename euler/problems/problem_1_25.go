@@ -146,3 +146,21 @@ func Problem8() (result int64) {
 	}
 	return
 }
+
+// Problem9 : Special Pythagorean triplet
+// 特殊毕达哥拉斯三元组
+func Problem9() (result int64) {
+	for a := 1; a < 1000; a++ {
+		for b := a + 1; b < 1000; b++ {
+			c := (1000 - a - b)
+			if c < b {
+				continue
+			}
+			if a*a+b*b == c*c {
+				result = int64(a * b * c)
+				return
+			}
+		}
+	}
+	return
+}

@@ -42,6 +42,7 @@ func init() {
 		6: problems.Problem6,
 		7: problems.Problem7,
 		8: problems.Problem8,
+		9: problems.Problem9,
 	}
 }
 
