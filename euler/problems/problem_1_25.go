@@ -3,7 +3,9 @@ package problems
 import (
 	"context"
 	"math"
+	"strconv"
 
+	"github.com/ifooth/projecteuler-go/euler/assets"
 	"github.com/ifooth/projecteuler-go/euler/math/number"
 )
 
@@ -101,7 +103,7 @@ func Problem6() (result int64) {
 	return
 }
 
-// Problem6 : 10001st prime
+// Problem7 : 10001st prime
 // 第10001个素数
 func Problem7() (result int64) {
 	ctx, cancel := context.WithCancel(context.Background())
@@ -114,6 +116,33 @@ func Problem7() (result int64) {
 			break
 		}
 		count += 1
+	}
+	return
+}
+
+// Problem8 : Largest product in a series
+// 连续数字最大乘积
+func Problem8() (result int64) {
+	dat, err := assets.GetTrimString("problem_8.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	limit := len(dat)
+	adjacentCount := 13
+
+	for i := 0; i <= limit-adjacentCount; i++ {
+		temp := int64(1)
+		for _, v := range dat[i : i+adjacentCount] {
+			k, err := strconv.Atoi(string(v))
+			if err != nil {
+				panic(err)
+			}
+			temp *= int64(k)
+		}
+		if temp > result {
+			result = temp
+		}
 	}
 	return
 }
