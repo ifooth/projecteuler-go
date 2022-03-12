@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -39,11 +41,28 @@ func init() {
 
 func GetProblemContent(problemId int) {
 	// Request the HTML page.
-	client := req.C().SetTimeout(time.Second * 60)
+	client := req.C().SetTimeout(time.Second * 60).DevMode()
 	url := fmt.Sprintf("https://projecteuler.net/problem=%d", problemId)
 
-	resp, err := client.R().
-		Get(url)
+	req := client.R()
+
+	sessionId := os.Getenv("EULER_SESSION_ID")
+	keepAliveId := os.Getenv("EULER_KEEPALIVE_ID")
+	if sessionId != "" && keepAliveId != "" {
+		sessionCookie := &http.Cookie{
+			Name:   "PHPSESSID",
+			Value:  sessionId,
+			Domain: "projecteuler.net",
+		}
+		keepAliveCookie := &http.Cookie{
+			Name:   "keep_alive",
+			Value:  keepAliveId,
+			Domain: "projecteuler.net",
+		}
+		req = req.SetCookies(sessionCookie, keepAliveCookie)
+	}
+
+	resp, err := req.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,5 +87,13 @@ func GetProblemContent(problemId int) {
 	fmt.Println("==== Project Euler Problem ====")
 	fmt.Println(title)
 	fmt.Println(content)
+	doc.Find("#problem_answer .data_entry").Each(func(i int, s *goquery.Selection) {
+		fmt.Println("====")
+		answer := s.Find(".strong").Text()
+		notice := s.Find(".small_notice").Text()
+		fmt.Println("Answer:", answer)
+		fmt.Println(notice)
+	})
+
 	fmt.Println("==== End ====")
 }
