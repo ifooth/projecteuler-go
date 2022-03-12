@@ -46,7 +46,7 @@ func main() {
 	st = time.Now()
 	result, err := eulerProject.Calculate(problemId)
 	if err != nil {
-		log.Println(result, "duration", time.Since(st))
+		log.Println(err, "duration", time.Since(st))
 		os.Exit(0)
 	}
 	log.Println(result, "duration", time.Since(st))

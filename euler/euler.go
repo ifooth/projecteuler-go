@@ -26,7 +26,7 @@ func NewEuler() *Euler {
 func (e *Euler) Calculate(problemId int) (int64, error) {
 	pFunc, ok := solvedProblems[problemId]
 	if !ok {
-		return 0, errors.New("not finish")
+		return 0, errors.New("no solved")
 	}
 	result := pFunc()
 	return result, nil
