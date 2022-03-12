@@ -1,5 +1,9 @@
 package problems
 
+import "github.com/ifooth/projecteuler-go/euler/math/number"
+
+// Problem1 : Multiples of 3 and 5
+// 3的倍数和5的倍数
 func Problem1() (result int64) {
 	var (
 		num   int64 = 1000
@@ -14,6 +18,8 @@ func Problem1() (result int64) {
 	return
 }
 
+// Problem2 : Even Fibonacci numbers
+// 偶斐波那契数
 func Problem2() (result int64) {
 	result = 2
 	var (
@@ -30,4 +36,13 @@ func Problem2() (result int64) {
 		}
 		n1, n2 = n2, next
 	}
+}
+
+// Problem3 : Largest prime factor
+// 最大质因数
+func Problem3() (result int64) {
+	for factor := range number.FactorsGenerator(600851475143) {
+		result = factor
+	}
+	return
 }

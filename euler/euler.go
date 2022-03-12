@@ -36,6 +36,7 @@ func init() {
 	solvedProblems = map[int]problems.ProblemFunc{
 		1: problems.Problem1,
 		2: problems.Problem2,
+		3: problems.Problem3,
 	}
 }
 

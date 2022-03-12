@@ -42,11 +42,12 @@ func main() {
 		euler.GetProblemContent(problemId)
 		log.Println("show content done", "duration", time.Since(st))
 	}
+
+	st = time.Now()
 	result, err := eulerProject.Calculate(problemId)
 	if err != nil {
 		log.Println(result, "duration", time.Since(st))
 		os.Exit(0)
 	}
 	log.Println(result, "duration", time.Since(st))
-
 }
