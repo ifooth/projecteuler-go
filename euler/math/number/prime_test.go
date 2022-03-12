@@ -1,6 +1,7 @@
 package number
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -15,6 +16,22 @@ func TestFactors(t *testing.T) {
 		2: 2,
 		3: 1,
 	})
+}
+
+func BenchmarkPrimeGenerator(b *testing.B) {
+	in := 10000
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	for i := 0; i < b.N; i++ {
+		c := 1
+		for range PrimeGenerator(ctx) {
+			if c > in {
+				break
+			}
+			c += 1
+		}
+	}
 }
 
 func TestFactorsGenerator(t *testing.T) {

@@ -36,8 +36,14 @@ func IsPrime(num int64) bool {
 	return true
 }
 
+type PrimeGeneratorOption struct {
+	Start   int64
+	End     int64
+	Reverse bool
+}
+
 // PrimeGenerator : 素数迭代器
-func PrimeGenerator(ctx context.Context) <-chan int64 {
+func PrimeGenerator(ctx context.Context, opts ...PrimeGeneratorOption) <-chan int64 {
 	result := make(chan int64)
 	go func() {
 		defer close(result)
