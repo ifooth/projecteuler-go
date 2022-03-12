@@ -1,33 +1,32 @@
 package problems
 
-func Problem1() int64 {
+func Problem1() (result int64) {
 	var (
-		sum   int64 = 0
 		num   int64 = 1000
 		index int64 = 0
 	)
 
 	for ; index < num; index++ {
 		if index%3 == 0 || index%5 == 0 {
-			sum += index
+			result += index
 		}
 	}
-	return sum
+	return
 }
 
-func Problem2() int64 {
+func Problem2() (result int64) {
+	result = 2
 	var (
-		n1  int64 = 1
-		n2  int64 = 2
-		sum int64 = 2
+		n1 int64 = 1
+		n2 int64 = 2
 	)
 	for {
 		next := n1 + n2
 		if next%2 == 0 {
-			sum += next
+			result += next
 		}
 		if next >= 4000000 {
-			return sum
+			return
 		}
 		n1, n2 = n2, next
 	}
