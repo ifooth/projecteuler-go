@@ -35,15 +35,16 @@ func (e *Euler) Calculate(problemId int) (int64, error) {
 
 func init() {
 	solvedProblems = map[int]problems.ProblemFunc{
-		1: problems.Problem1,
-		2: problems.Problem2,
-		3: problems.Problem3,
-		4: problems.Problem4,
-		5: problems.Problem5,
-		6: problems.Problem6,
-		7: problems.Problem7,
-		8: problems.Problem8,
-		9: problems.Problem9,
+		1:  problems.Problem1,
+		2:  problems.Problem2,
+		3:  problems.Problem3,
+		4:  problems.Problem4,
+		5:  problems.Problem5,
+		6:  problems.Problem6,
+		7:  problems.Problem7,
+		8:  problems.Problem8,
+		9:  problems.Problem9,
+		10: problems.Problem10,
 	}
 }
 

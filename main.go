@@ -56,7 +56,7 @@ func main() {
 		os.Exit(0)
 	}
 	if err == nil {
-		log.Println(fmt.Sprintf("result %d = %d is %t", result, answer, result == answer), "duration", time.Since(st))
+		log.Println(fmt.Sprintf("result %d(solve) = %d(euler) is %t", result, answer, result == answer), "duration", time.Since(st))
 		os.Exit(0)
 	}
 	log.Println(result, "duration", time.Since(st))

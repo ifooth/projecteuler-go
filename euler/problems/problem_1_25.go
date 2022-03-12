@@ -164,3 +164,19 @@ func Problem9() (result int64) {
 	}
 	return
 }
+
+// Problem10 Summation of primes
+// 素数的和
+func Problem10() (result int64) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	for prime := range number.PrimeGenerator(ctx) {
+		if prime >= 2000000 {
+
+			break
+		}
+		result += prime
+	}
+	return
+}
