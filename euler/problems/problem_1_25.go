@@ -83,3 +83,19 @@ func Problem5() (result int64) {
 	}
 	return
 }
+
+// Problem6 : Sum square difference
+// 平方的和与和的平方之差
+func Problem6() (result int64) {
+	var (
+		sumOfNatural int
+		sumOfSquare  int
+	)
+	for i := 1; i <= 100; i++ {
+		sumOfNatural += i
+		sumOfSquare += i * i
+	}
+
+	result = int64(sumOfNatural*sumOfNatural - sumOfSquare)
+	return
+}
