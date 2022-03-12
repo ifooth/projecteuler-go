@@ -1,6 +1,7 @@
 package problems
 
 import (
+	"context"
 	"math"
 
 	"github.com/ifooth/projecteuler-go/euler/math/number"
@@ -97,5 +98,22 @@ func Problem6() (result int64) {
 	}
 
 	result = int64(sumOfNatural*sumOfNatural - sumOfSquare)
+	return
+}
+
+// Problem6 : 10001st prime
+// 第10001个素数
+func Problem7() (result int64) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	count := 1
+	for prime := range number.PrimeGenerator(ctx) {
+		if count == 10001 {
+			result = prime
+			break
+		}
+		count += 1
+	}
 	return
 }

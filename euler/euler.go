@@ -40,6 +40,7 @@ func init() {
 		4: problems.Problem4,
 		5: problems.Problem5,
 		6: problems.Problem6,
+		7: problems.Problem7,
 	}
 }
 
