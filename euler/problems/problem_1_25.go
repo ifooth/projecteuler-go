@@ -1,6 +1,10 @@
 package problems
 
-import "github.com/ifooth/projecteuler-go/euler/math/number"
+import (
+	"math"
+
+	"github.com/ifooth/projecteuler-go/euler/math/number"
+)
 
 // Problem1 : Multiples of 3 and 5
 // 3的倍数和5的倍数
@@ -57,6 +61,25 @@ func Problem4() (result int64) {
 				result = num
 			}
 		}
+	}
+	return
+}
+
+// Problem5 : Smallest multiple
+// 最小倍数
+func Problem5() (result int64) {
+	maxFactorMap := map[int64]int64{}
+	for i := 2; i <= 20; i++ {
+		factorMap := number.Factors(int64(i))
+		for k, v := range factorMap {
+			if maxFactorMap[k] < v {
+				maxFactorMap[k] = v
+			}
+		}
+	}
+	result = 1
+	for k, v := range maxFactorMap {
+		result *= int64(math.Pow(float64(k), float64(v)))
 	}
 	return
 }

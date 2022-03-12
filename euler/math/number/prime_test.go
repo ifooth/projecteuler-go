@@ -6,6 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestFactors(t *testing.T) {
+	factors := Factors(12)
+	assert.Equal(t, len(factors), 3)
+	assert.Equal(t, factors, map[int64]int64{
+		1: 1,
+		2: 2,
+		3: 1,
+	})
+}
+
 func TestFactorsGenerator(t *testing.T) {
 	var result []int64
 	for factor := range FactorsGenerator(12) {
