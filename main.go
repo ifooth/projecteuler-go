@@ -38,15 +38,25 @@ func main() {
 	problemId, showContent := ParseArgs()
 	eulerProject := euler.NewEuler()
 	st := time.Now()
+	var answer int64
+	var err error
 	if showContent {
-		euler.GetProblemContent(problemId)
-		log.Println("show content done", "duration", time.Since(st))
+		answer, err = euler.GetProblemContent(problemId)
+		if err != nil {
+			log.Println("not login", "duration", time.Since(st))
+		} else {
+			log.Println("show content done", "duration", time.Since(st))
+		}
 	}
 
 	st = time.Now()
 	result, err := eulerProject.Calculate(problemId)
 	if err != nil {
 		log.Println(err, "duration", time.Since(st))
+		os.Exit(0)
+	}
+	if err == nil {
+		log.Println(fmt.Sprintf("result %d = %d is %t", result, answer, result == answer), "duration", time.Since(st))
 		os.Exit(0)
 	}
 	log.Println(result, "duration", time.Since(st))

@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -46,7 +47,7 @@ func init() {
 	}
 }
 
-func GetProblemContent(problemId int) {
+func GetProblemContent(problemId int) (int64, error) {
 	// Request the HTML page.
 	client := req.C().SetTimeout(time.Second * 60)
 	if os.Getenv("EULER_DEBUG") != "" {
@@ -97,13 +98,18 @@ func GetProblemContent(problemId int) {
 	fmt.Println("==== Project Euler Problem ====")
 	fmt.Println(title)
 	fmt.Println(content)
+
+	var answer int
+	err = errors.New("not login")
 	doc.Find("#problem_answer .data_entry").Each(func(i int, s *goquery.Selection) {
 		fmt.Println("====")
-		answer := s.Find(".strong").Text()
+		answer, err = strconv.Atoi(s.Find(".strong").Text())
+
 		notice := s.Find(".small_notice").Text()
 		fmt.Println("Answer:", answer)
 		fmt.Println(notice)
 	})
 
 	fmt.Println("==== End ====")
+	return int64(answer), err
 }
