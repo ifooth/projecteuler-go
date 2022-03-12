@@ -11,8 +11,9 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/ifooth/projecteuler-go/euler/problems"
 	"github.com/imroc/req/v3"
+
+	"github.com/ifooth/projecteuler-go/euler/problems"
 )
 
 var solvedProblems map[int]problems.ProblemFunc

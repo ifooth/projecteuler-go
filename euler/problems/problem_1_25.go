@@ -173,7 +173,6 @@ func Problem10() (result int64) {
 
 	for prime := range number.PrimeGenerator(ctx) {
 		if prime >= 2000000 {
-
 			break
 		}
 		result += prime
