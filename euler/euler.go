@@ -41,7 +41,10 @@ func init() {
 
 func GetProblemContent(problemId int) {
 	// Request the HTML page.
-	client := req.C().SetTimeout(time.Second * 60).DevMode()
+	client := req.C().SetTimeout(time.Second * 60)
+	if os.Getenv("EULER_DEBUG") != "" {
+		client = client.DevMode()
+	}
 	url := fmt.Sprintf("https://projecteuler.net/problem=%d", problemId)
 
 	req := client.R()
