@@ -46,3 +46,17 @@ func Problem3() (result int64) {
 	}
 	return
 }
+
+// Problem4 : Largest palindrome product
+// 最大回文乘积
+func Problem4() (result int64) {
+	for i := 100; i < 1000; i++ {
+		for j := 100; j < 1000; j++ {
+			num := int64(i * j)
+			if number.IsPalindromic(num) && num > result {
+				result = num
+			}
+		}
+	}
+	return
+}
