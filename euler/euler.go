@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"reflect"
 	"strconv"
 	"time"
 
@@ -16,37 +17,27 @@ import (
 	"github.com/ifooth/projecteuler-go/euler/problems"
 )
 
-var solvedProblems map[int]problems.ProblemFunc
-
-type Euler struct {
-}
+type Euler struct{}
 
 func NewEuler() *Euler {
 	return &Euler{}
 }
 
 func (e *Euler) Calculate(problemId int) (int64, error) {
-	pFunc, ok := solvedProblems[problemId]
+	problemKey := fmt.Sprintf("Problem%d", problemId)
+	pFunc, ok := problems.Functions[problemKey]
 	if !ok {
 		return 0, errors.New("no solved")
 	}
-	result := pFunc()
-	return result, nil
-}
-
-func init() {
-	solvedProblems = map[int]problems.ProblemFunc{
-		1:  problems.Problem1,
-		2:  problems.Problem2,
-		3:  problems.Problem3,
-		4:  problems.Problem4,
-		5:  problems.Problem5,
-		6:  problems.Problem6,
-		7:  problems.Problem7,
-		8:  problems.Problem8,
-		9:  problems.Problem9,
-		10: problems.Problem10,
+	result := pFunc.Call([]reflect.Value{})
+	if len(result) != 1 {
+		return 0, fmt.Errorf("not valid result, %s", result)
 	}
+	answer, ok := result[0].Interface().(int64)
+	if !ok {
+		return 0, fmt.Errorf("not valid answer, %s", result)
+	}
+	return answer, nil
 }
 
 func GetProblemContent(problemId int) (int64, error) {

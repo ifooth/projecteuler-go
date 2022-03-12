@@ -14,12 +14,12 @@ pkgreflect:
 
 .PHONY: build
 build:
-	pkgreflect -noconsts -novars -notypes euler/problems
+	@pkgreflect -noconsts -novars -notypes euler/problems
 	@go build -o projecteuler main.go
 
 .PHONY: run
 run:
-	pkgreflect -noconsts -novars -notypes euler/problems
+	@pkgreflect -noconsts -novars -notypes euler/problems
 	@go run main.go ${ARGS}
 
 .PHONY: test
