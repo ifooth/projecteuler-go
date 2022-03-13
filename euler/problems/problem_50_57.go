@@ -2,6 +2,7 @@ package problems
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/ifooth/projecteuler-go/euler/math/number"
 )
@@ -42,24 +43,45 @@ func Problem66() (result int64) {
 	var (
 		maxX int64
 		maxY int64
+		wg   sync.WaitGroup
+		mtx  sync.Mutex
 	)
+
+	concurrency := 16
+
+	diophantineChan := make(chan int64, concurrency)
+
+	for i := 0; i < concurrency; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			for d := range diophantineChan {
+				fmt.Println("try find diophantine:", d)
+				x, y := findDiophantine(d)
+				fmt.Println("find diophantine done:", x, d, y)
+
+				mtx.Lock()
+				if x > maxX {
+					maxX = x
+					maxY = y
+					result = d
+				}
+				mtx.Unlock()
+			}
+		}()
+	}
 
 	for diophantine := int64(2); diophantine <= limit; diophantine++ {
 		// 丢番图数本身已经是平方时无解
 		if _, ok := number.SqrtInt(diophantine); ok {
 			continue
 		}
-
-		x, y := findDiophantine(diophantine)
-		fmt.Println(x, diophantine, y)
-
-		if x > maxX {
-			maxX = x
-			maxY = y
-			result = diophantine
-		}
-
+		diophantineChan <- diophantine
 	}
+
+	wg.Wait()
+
 	fmt.Println("result", maxX, result, maxY)
 	return
 }
