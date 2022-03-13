@@ -2,7 +2,7 @@ package problems
 
 import "fmt"
 
-// Problem76 : Coin sums
+// Problem31 : Coin sums
 // 硬币求和
 // 动态规划，背包问题(Knapsack problem)
 func Problem31() (result int64) {
