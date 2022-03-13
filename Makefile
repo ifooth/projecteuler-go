@@ -19,7 +19,7 @@ build:
 
 .PHONY: run
 run:
-	@pkgreflect -noconsts -novars -notypes euler/problems
+	@pkgreflect -noconsts -novars -notests -notypes euler/problems
 	@go run main.go ${ARGS}
 
 .PHONY: test
