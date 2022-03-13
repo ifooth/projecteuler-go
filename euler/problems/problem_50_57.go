@@ -39,7 +39,7 @@ func findDiophantine(d int64) (int64, int64) {
 // Problem66 : Diophantine equation
 // 丢番图方程
 func Problem66() (result int64) {
-	limit := int64(20)
+	limit := int64(100)
 	var (
 		maxX int64
 		maxY int64
