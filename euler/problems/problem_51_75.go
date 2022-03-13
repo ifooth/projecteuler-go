@@ -34,6 +34,7 @@ func findDiophantine(d int64) (int64, int64) {
 
 // Problem66 : Diophantine equation
 // 丢番图方程
+// https://en.wikipedia.org/wiki/Pell%27s_equation
 func Problem66() (result int64) {
 	limit := int64(7)
 	var (
@@ -80,5 +81,51 @@ func Problem66() (result int64) {
 	wg.Wait()
 
 	fmt.Println("result", maxX, result, maxY)
+	return
+}
+
+// Problem77 : Prime summations
+// 素数加和
+func Problem77() (result int64) {
+	primeList := []int64{}
+
+	countMap := map[int64]int64{}
+	for i := int64(2); ; i++ {
+		if number.IsPrime(i) {
+			primeList = append(primeList, i)
+			// 素数个数算1
+			countMap[i] = 1
+			continue
+		}
+
+		var count int64
+		visited := map[int64]struct{}{}
+		for _, prime := range primeList {
+			if _, ok := visited[prime]; ok {
+				continue
+			}
+
+			if i-prime == 1 {
+				continue
+			}
+
+			value := i - prime
+
+			// 返回如果是合数， 加合数数量
+			c := countMap[value]
+			if c == 1 {
+				visited[value] = struct{}{}
+			}
+
+			count += c
+		}
+
+		countMap[i] = count
+		if count >= 5000 {
+			fmt.Println(countMap)
+			result = i
+			break
+		}
+	}
 	return
 }

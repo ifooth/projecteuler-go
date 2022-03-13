@@ -17,6 +17,7 @@ var Functions = map[string]reflect.Value{
 	"Problem64": reflect.ValueOf(Problem64),
 	"Problem66": reflect.ValueOf(Problem66),
 	"Problem7": reflect.ValueOf(Problem7),
+	"Problem77": reflect.ValueOf(Problem77),
 	"Problem8": reflect.ValueOf(Problem8),
 	"Problem9": reflect.ValueOf(Problem9),
 }
