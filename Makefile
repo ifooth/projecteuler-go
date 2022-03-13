@@ -14,7 +14,7 @@ pkgreflect:
 
 .PHONY: build
 build:
-	@pkgreflect -noconsts -novars -notypes euler/problems
+	@pkgreflect -noconsts -novars -notests -notypes euler/problems
 	@go build -o projecteuler main.go
 
 .PHONY: run
