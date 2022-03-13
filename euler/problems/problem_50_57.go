@@ -24,12 +24,12 @@ func Problem64() (result int64) {
 }
 
 func findDiophantine(d int64) (int64, int64) {
-	for x := int64(2); ; x++ {
-		quotient, remainder := number.Divmod(x*x-1, d)
-		if remainder != 0 {
+	for remainder := int64(1); ; remainder++ {
+		x, ok := number.SqrtInt(d*remainder + 1)
+		if !ok {
 			continue
 		}
-		sqrt, ok := number.SqrtInt(quotient)
+		sqrt, ok := number.SqrtInt((x*x - 1) / d)
 		if ok {
 			return x, sqrt
 		}
@@ -39,7 +39,7 @@ func findDiophantine(d int64) (int64, int64) {
 // Problem66 : Diophantine equation
 // 丢番图方程
 func Problem66() (result int64) {
-	limit := int64(1000)
+	limit := int64(20)
 	var (
 		maxX int64
 		maxY int64
@@ -80,6 +80,7 @@ func Problem66() (result int64) {
 		fmt.Println("try find diophantine:", diophantine)
 	}
 
+	close(diophantineChan)
 	wg.Wait()
 
 	fmt.Println("result", maxX, result, maxY)
