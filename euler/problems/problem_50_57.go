@@ -49,7 +49,7 @@ func Problem66() (result int64) {
 
 	concurrency := 16
 
-	diophantineChan := make(chan int64, concurrency)
+	diophantineChan := make(chan int64)
 
 	for i := 0; i < concurrency; i++ {
 		wg.Add(1)
@@ -57,7 +57,6 @@ func Problem66() (result int64) {
 			defer wg.Done()
 
 			for d := range diophantineChan {
-				fmt.Println("try find diophantine:", d)
 				x, y := findDiophantine(d)
 				fmt.Println("find diophantine done:", x, d, y)
 
@@ -78,6 +77,7 @@ func Problem66() (result int64) {
 			continue
 		}
 		diophantineChan <- diophantine
+		fmt.Println("try find diophantine:", diophantineChan)
 	}
 
 	wg.Wait()
