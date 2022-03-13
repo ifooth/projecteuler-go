@@ -24,14 +24,10 @@ func Problem64() (result int64) {
 }
 
 func findDiophantine(d int64) (int64, int64) {
-	for remainder := int64(1); ; remainder++ {
-		x, ok := number.SqrtInt(d*remainder + 1)
-		if !ok {
-			continue
-		}
-		sqrt, ok := number.SqrtInt((x*x - 1) / d)
+	for y := int64(1); ; y++ {
+		x, ok := number.SqrtInt(d*y*y + 1)
 		if ok {
-			return x, sqrt
+			return x, y
 		}
 	}
 }
@@ -39,7 +35,7 @@ func findDiophantine(d int64) (int64, int64) {
 // Problem66 : Diophantine equation
 // 丢番图方程
 func Problem66() (result int64) {
-	limit := int64(100)
+	limit := int64(7)
 	var (
 		maxX int64
 		maxY int64
