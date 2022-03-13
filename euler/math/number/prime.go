@@ -27,13 +27,37 @@ func IsPrime(num int64) bool {
 	}
 
 	// +2序列必须加1, int向上浮动1
-	for i := int64(5); i <= SqrtInt(num); i += 6 {
+	for i := int64(5); i <= SqrtCeilInt(num); i += 6 {
 		if num%i == 0 || num%(i+2) == 0 {
 			return false
 		}
 	}
 
 	return true
+}
+
+// PrevPrime 上一个素数
+func PrevPrime(num int64) int64 {
+	start := PrevOddNumber(num)
+	for {
+		if IsPrime(start) {
+			break
+		}
+		start -= 2
+	}
+	return start
+}
+
+// NextPrime 下一个素数
+func NextPrime(num int64) int64 {
+	start := NextOddNumber(num)
+	for {
+		if IsPrime(start) {
+			break
+		}
+		start += 2
+	}
+	return start
 }
 
 // GeneratorOption : 素数迭代器配置

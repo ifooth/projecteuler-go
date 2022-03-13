@@ -5,9 +5,28 @@ import (
 	"strconv"
 )
 
+func Divmod(numerator, denominator int64) (quotient, remainder int64) {
+	quotient = numerator / denominator // integer division, decimals are truncated
+	remainder = numerator % denominator
+	return
+}
+
+func SqrtInt(num int64) (int64, bool) {
+	sqrt := SqrtCeilInt(num)
+	if sqrt*sqrt == num {
+		return sqrt, true
+	}
+	return 0, false
+}
+
 // SqrtInt 平方根, 往上取整
-func SqrtInt(num int64) int64 {
+func SqrtCeilInt(num int64) int64 {
 	return int64(math.Ceil(math.Sqrt(float64(num))))
+}
+
+// SqrtInt 平方根, 往下取整
+func SqrtFloorInt(num int64) int64 {
+	return int64(math.Floor(math.Sqrt(float64(num))))
 }
 
 // 指数计算, 整数

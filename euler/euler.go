@@ -92,6 +92,9 @@ func GetProblemContent(problemId int) (int64, error) {
 	fmt.Println(title)
 	fmt.Println(content)
 
+	fmt.Printf("Euler:    https://projecteuler.net/problem=%d\n", problemId)
+	fmt.Printf("Euler-CN: http://pe-cn.github.io/%d/\n", problemId)
+
 	var answer int
 	err = errors.New("not login")
 	doc.Find("#problem_answer .data_entry").Each(func(i int, s *goquery.Selection) {
