@@ -113,14 +113,28 @@ func Problem77() (result int64) {
 
 			// 返回如果是合数， 加合数数量
 			c := countMap[value]
+
+			// 是素数的场景
 			if c == 1 {
 				visited[value] = struct{}{}
+				count++
+				fmt.Println(i, "=", value, prime, fmt.Sprintf("(%d)", 1))
+				continue
 			}
 
+			// // 是合数的场景
+			// if value%prime == 0 {
+			// 	count += c - 1
+			// 	fmt.Println(i, "=", value, prime, fmt.Sprintf("(%d)", c-1))
+			// 	continue
+			// }
+
 			count += c
+			fmt.Println(i, "=", value, prime, fmt.Sprintf("(%d)", c))
 		}
 
 		countMap[i] = count
+		fmt.Println(i, "===", fmt.Sprintf("(%d)", count))
 		if count >= 5000 {
 			fmt.Println(countMap)
 			result = i
