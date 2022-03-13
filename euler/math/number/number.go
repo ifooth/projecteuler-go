@@ -15,6 +15,22 @@ func PowInt(x, y int64) int64 {
 	return int64(math.Pow(float64(x), float64(y)))
 }
 
+// NextOddNumber 下一个奇数
+func NextOddNumber(num int64) int64 {
+	if num%2 == 0 {
+		return num + 1
+	}
+	return num
+}
+
+// PrevOddNumber 上一个奇数
+func PrevOddNumber(num int64) int64 {
+	if num%2 == 0 {
+		return num - 1
+	}
+	return num
+}
+
 func ReverseSlice(values []int64) []int64 {
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
 		values[i], values[j] = values[j], values[i]

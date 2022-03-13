@@ -18,6 +18,22 @@ func TestFactors(t *testing.T) {
 	})
 }
 
+func TestPrimeGenerator(t *testing.T) {
+	in := 10
+	c := 0
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	for prime := range PrimeGenerator(ctx) {
+		if c > in {
+			break
+		}
+		fmt.Println(prime)
+		c += 1
+	}
+}
+
 func BenchmarkPrimeGenerator(b *testing.B) {
 	in := 10000
 	ctx, cancel := context.WithCancel(context.Background())
@@ -25,7 +41,7 @@ func BenchmarkPrimeGenerator(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		c := 1
-		for range PrimeGenerator(ctx) {
+		for range PrimeGenerator(ctx, StartOpt(10)) {
 			if c > in {
 				break
 			}

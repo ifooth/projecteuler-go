@@ -36,23 +36,57 @@ func IsPrime(num int64) bool {
 	return true
 }
 
-type PrimeGeneratorOption struct {
-	Start   int64
-	End     int64
-	Reverse bool
+// GeneratorOption : 素数迭代器配置
+type GeneratorOption struct {
+	Start   int64           // 开始
+	Ctx     context.Context // 结束信号
+	Stop    int64           // 结束
+	Reverse bool            // 反向查找, 需要配合 Stop 参数
+}
+
+// Option sets values in Options
+type Option func(o *GeneratorOption)
+
+func StartOpt(num int64) Option {
+	return func(o *GeneratorOption) {
+		o.Start = num
+	}
+}
+
+func StopOpt(num int64) Option {
+	return func(o *GeneratorOption) {
+		o.Stop = num
+	}
+}
+
+func ReverseOpt(reverse bool) Option {
+	return func(o *GeneratorOption) {
+		o.Reverse = reverse
+	}
 }
 
 // PrimeGenerator : 素数迭代器
-func PrimeGenerator(ctx context.Context, opts ...PrimeGeneratorOption) <-chan int64 {
+func PrimeGenerator(ctx context.Context, opts ...Option) <-chan int64 {
 	result := make(chan int64)
+
+	o := &GeneratorOption{}
+	for _, opt := range opts {
+		opt(o)
+	}
+
 	go func() {
 		defer close(result)
-		result <- FirstPrime
-		result <- SecondPrime
 
-		num := SecondPrime
+		var num int64
+
+		if o.Start <= FirstPrime {
+			result <- FirstPrime
+			num = SecondPrime
+		} else {
+			num = NextOddNumber(o.Start)
+		}
+
 		for {
-			num += 2
 			if IsPrime(num) {
 				select {
 				case <-ctx.Done():
@@ -61,6 +95,11 @@ func PrimeGenerator(ctx context.Context, opts ...PrimeGeneratorOption) <-chan in
 				}
 			}
 
+			if o.Reverse {
+				num -= 2
+			} else {
+				num += 2
+			}
 		}
 	}()
 	return result
