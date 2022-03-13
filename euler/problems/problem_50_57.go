@@ -77,7 +77,7 @@ func Problem66() (result int64) {
 			continue
 		}
 		diophantineChan <- diophantine
-		fmt.Println("try find diophantine:", diophantineChan)
+		fmt.Println("try find diophantine:", diophantine)
 	}
 
 	wg.Wait()
