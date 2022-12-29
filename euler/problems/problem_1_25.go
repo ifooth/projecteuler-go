@@ -227,7 +227,7 @@ func Problem11() (result int64) {
 }
 
 // Problem12 : Highly divisible triangular number
-// 高度可约的三角形数
+// 多约数的三角形数
 func Problem12() (result int64) {
 	fmt.Println(number.Factors(28))
 	return
