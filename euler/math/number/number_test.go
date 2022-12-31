@@ -30,3 +30,9 @@ func TestIsPalindromic(t *testing.T) {
 	ok = IsPalindromic(90092)
 	assert.False(t, ok)
 }
+
+func BenchmarkPalindromic(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		IsPalindromic(int64(n))
+	}
+}
