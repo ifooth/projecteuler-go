@@ -9,7 +9,9 @@ import (
 )
 
 const (
-	FirstPrime  = int64(2)
+	// FirstPrime ..
+	FirstPrime = int64(2)
+	// SecondPrime ..
 	SecondPrime = int64(3)
 )
 
@@ -71,18 +73,21 @@ type GeneratorOption struct {
 // Option sets values in Options
 type Option func(o *GeneratorOption)
 
+// StartOpt ..
 func StartOpt(num int64) Option {
 	return func(o *GeneratorOption) {
 		o.Start = num
 	}
 }
 
+// StopOpt ..
 func StopOpt(num int64) Option {
 	return func(o *GeneratorOption) {
 		o.Stop = num
 	}
 }
 
+// ReverseOpt ..
 func ReverseOpt(reverse bool) Option {
 	return func(o *GeneratorOption) {
 		o.Reverse = reverse

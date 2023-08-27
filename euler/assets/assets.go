@@ -9,6 +9,7 @@ import (
 //go:embed dat
 var f embed.FS
 
+// GetAsset ..
 func GetAsset(name string) ([]byte, error) {
 	return f.ReadFile("dat/" + name)
 }
@@ -26,6 +27,7 @@ func GetTrimString(name string) (string, error) {
 	return dat, nil
 }
 
+// GetMatrixInt ..
 func GetMatrixInt(name string) ([][]int64, error) {
 	asset, err := GetAsset(name)
 	if err != nil {

@@ -5,12 +5,14 @@ import (
 	"strconv"
 )
 
+// Divmod ..
 func Divmod(numerator, denominator int64) (quotient, remainder int64) {
 	quotient = numerator / denominator // integer division, decimals are truncated
 	remainder = numerator % denominator
 	return
 }
 
+// SqrtInt ..
 func SqrtInt(num int64) (int64, bool) {
 	sqrt := SqrtCeilInt(num)
 	if sqrt*sqrt == num {
@@ -50,6 +52,7 @@ func PrevOddNumber(num int64) int64 {
 	return num
 }
 
+// ReverseSlice ..
 func ReverseSlice(values []int64) []int64 {
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
 		values[i], values[j] = values[j], values[i]
@@ -57,6 +60,7 @@ func ReverseSlice(values []int64) []int64 {
 	return values
 }
 
+// ReverseSliceChar ..
 func ReverseSliceChar(values []rune) []rune {
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
 		values[i], values[j] = values[j], values[i]

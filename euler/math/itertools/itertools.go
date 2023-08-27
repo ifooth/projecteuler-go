@@ -1,5 +1,6 @@
 package itertools
 
+// IterSlice ..
 func IterSlice(values []int64) <-chan int64 {
 	result := make(chan int64)
 	go func() {
@@ -12,6 +13,7 @@ func IterSlice(values []int64) <-chan int64 {
 	return result
 }
 
+// IterInt ..
 func IterInt(max int64) <-chan int64 {
 	result := make(chan int64)
 	go func() {

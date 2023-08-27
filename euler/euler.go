@@ -17,12 +17,15 @@ import (
 	"github.com/ifooth/projecteuler-go/euler/problems"
 )
 
+// Euler ..
 type Euler struct{}
 
+// NewEuler ..
 func NewEuler() *Euler {
 	return &Euler{}
 }
 
+// Calculate ..
 func (e *Euler) Calculate(problemId int) (int64, error) {
 	problemKey := fmt.Sprintf("Problem%d", problemId)
 	pFunc, ok := problems.Functions[problemKey]
@@ -40,6 +43,7 @@ func (e *Euler) Calculate(problemId int) (int64, error) {
 	return answer, nil
 }
 
+// GetProblemContent ..
 func GetProblemContent(problemId int) (int64, error) {
 	// Request the HTML page.
 	client := req.C().SetTimeout(time.Second * 60)

@@ -14,7 +14,7 @@ var (
 	version string
 )
 
-func ParseArgs() (int, bool) {
+func parseArgs() (int, bool) {
 	problemId := flag.Int("n", 0, "euler problem num")
 	showContent := flag.Bool("c", false, "show euler problem content")
 	flagVersion := flag.Bool("v", false, "print version")
@@ -35,7 +35,7 @@ func ParseArgs() (int, bool) {
 }
 
 func main() {
-	problemId, showContent := ParseArgs()
+	problemId, showContent := parseArgs()
 	eulerProject := euler.NewEuler()
 	st := time.Now()
 	var answer int64
