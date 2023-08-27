@@ -71,7 +71,7 @@ func GetProblemContent(problemId int) (int64, error) {
 		log.Fatal(err)
 	}
 
-	if !resp.IsSuccess() {
+	if !resp.IsSuccessState() {
 		log.Fatal(err)
 	}
 
