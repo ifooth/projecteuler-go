@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"math/big"
 
 	"github.com/ifooth/projecteuler-go/euler/math/itertools"
 )
@@ -11,8 +12,15 @@ import (
 const (
 	// FirstPrime ..
 	FirstPrime = int64(2)
+
 	// SecondPrime ..
 	SecondPrime = int64(3)
+)
+
+var (
+	Zero = big.NewInt(0) // Zero ..
+	One  = big.NewInt(1) // One ..
+	Two  = big.NewInt(2) // Tow ..
 )
 
 // IsPrime : 素数检测法
@@ -144,6 +152,7 @@ func FactorsGenerator(num int64) <-chan int64 {
 
 		result <- 1
 		factor, limit := FirstPrime, math.Sqrt(float64(num))
+		fmt.Println("factor", factor, "limit", limit)
 		for float64(factor) <= limit {
 			if num%factor == 0 {
 				result <- factor
@@ -161,12 +170,56 @@ func FactorsGenerator(num int64) <-chan int64 {
 	return result
 }
 
+// FactorsGeneratorInt 因子生成器
+// 12 = 1 * 2 * 2 * 3
+func FactorsGeneratorInt(num *big.Int) <-chan *big.Int {
+	result := make(chan *big.Int)
+
+	go func() {
+		defer close(result)
+
+		result <- One
+		factor, limit := Two, SqrtCeil(num)
+
+		for factor.Cmp(limit) <= 0 {
+			div := new(big.Int)
+			mod := new(big.Int)
+			div.DivMod(num, factor, mod)
+
+			if mod.Cmp(Zero) == 0 {
+				f := *factor
+				result <- &f
+				num.Set(div)
+				limit = new(big.Int).Add(new(big.Int).Sqrt(num), One)
+			} else {
+				factor.Add(factor, One)
+			}
+		}
+		if num.Cmp(One) > 0 {
+			result <- num
+		}
+	}()
+	return result
+}
+
 // Factors 因数分解 12 = 1^1 * 2^2 * 3^1
 // return {1: 1, 2: 2, : 3: 1}
 func Factors(num int64) map[int64]int64 {
 	factorMap := map[int64]int64{}
 	for factor := range FactorsGenerator(num) {
 		factorMap[factor] += 1
+	}
+	return factorMap
+}
+
+// Factors 大数分解
+func FactorsInt(num *big.Int) map[*big.Int]*big.Int {
+	factorMap := map[*big.Int]*big.Int{}
+	for factor := range FactorsGeneratorInt(num) {
+		if _, ok := factorMap[factor]; ok {
+			factorMap[factor].Add(factorMap[factor], One)
+		}
+		factorMap[factor] = One
 	}
 	return factorMap
 }

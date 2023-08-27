@@ -3,6 +3,7 @@ package number
 import (
 	"context"
 	"fmt"
+	"math/big"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -57,6 +58,22 @@ func TestFactorsGenerator(t *testing.T) {
 	}
 	assert.Equal(t, len(result), 4)
 	assert.Equal(t, result, []int64{1, 2, 2, 3})
+}
+
+func TestFactorsGenerator2(t *testing.T) {
+	var result []*big.Int
+	n := big.NewInt(12)
+	for factor := range FactorsGeneratorInt(n) {
+		result = append(result, factor)
+	}
+	assert.Equal(t, len(result), 4)
+	fmt.Println("result", result)
+	r := big.NewInt(1)
+	for _, v := range result {
+		r = r.Mul(r, v)
+	}
+	assert.Equal(t, r, big.NewInt(12))
+	assert.Equal(t, []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(2), big.NewInt(3)}, result)
 }
 
 func TestProperDivisors(t *testing.T) {

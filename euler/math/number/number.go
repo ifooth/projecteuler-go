@@ -2,6 +2,7 @@ package number
 
 import (
 	"math"
+	"math/big"
 	"strconv"
 )
 
@@ -24,6 +25,15 @@ func SqrtInt(num int64) (int64, bool) {
 // SqrtInt 平方根, 往上取整
 func SqrtCeilInt(num int64) int64 {
 	return int64(math.Ceil(math.Sqrt(float64(num))))
+}
+
+// SqrtCeil 平方根, 往上取整
+func SqrtCeil(num *big.Int) *big.Int {
+	sqrt := new(big.Int).Sqrt(num)
+	if new(big.Int).Mul(sqrt, sqrt).Cmp(num) < 0 {
+		sqrt.Add(sqrt, big.NewInt(1))
+	}
+	return sqrt
 }
 
 // SqrtInt 平方根, 往下取整
