@@ -20,17 +20,14 @@ bench:
 lint:
 	@golangci-lint run -c /etc/.golangci.yml
 
-.PHONY: pkgreflect
-pkgreflect:
-	@go get -d github.com/ungerik/pkgreflect
+.PHONY: generate
+generate:
+	@go generate ./...
 
 .PHONY: build
 build:
-	@pkgreflect -noconsts -novars -notests -notypes euler/problems
 	@go build -o projecteuler main.go
 
 .PHONY: run
 run:
-	@pkgreflect -noconsts -novars -notests -notypes euler/problems
 	@go run main.go ${ARGS}
-

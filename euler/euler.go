@@ -17,6 +17,8 @@ import (
 	"github.com/ifooth/projecteuler-go/euler/problems"
 )
 
+//go:generate go run ./gen/main.go -noconsts -novars -notests -notypes problems
+
 // Euler ..
 type Euler struct{}
 
