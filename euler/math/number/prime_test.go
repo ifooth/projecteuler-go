@@ -82,3 +82,15 @@ func TestProperDivisors(t *testing.T) {
 	assert.Equal(t, len(result), 5)
 	assert.Equal(t, result, []int64{1, 2, 3, 4, 6})
 }
+
+func TestGen(t *testing.T) {
+	ch := make(chan int)
+	go Generator(ch)
+	for i := 0; i < 10; i++ {
+		prime := <-ch
+		t.Log("prime", prime)
+		ch1 := make(chan int)
+		go Filter(ch, ch1, prime)
+		ch = ch1
+	}
+}
