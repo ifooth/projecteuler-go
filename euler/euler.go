@@ -1,7 +1,6 @@
 package euler
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"log"
@@ -12,7 +11,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/imroc/req/v3"
+	"github.com/go-resty/resty/v2"
 
 	"github.com/ifooth/projecteuler-go/euler/problems"
 )
@@ -48,13 +47,13 @@ func (e *Euler) Calculate(problemId int) (int64, error) {
 // GetProblemContent ..
 func GetProblemContent(problemId int) (int64, error) {
 	// Request the HTML page.
-	client := req.C().SetTimeout(time.Second * 60)
+	client := resty.New().SetTimeout(time.Second * 60)
 	if os.Getenv("EULER_DEBUG") != "" {
-		client = client.DevMode()
+		client = client.SetDebug(true)
 	}
 	url := fmt.Sprintf("https://projecteuler.net/problem=%d", problemId)
 
-	req := client.R()
+	req := client.R().SetDoNotParseResponse(true)
 
 	sessionId := os.Getenv("EULER_SESSION_ID")
 	keepAliveId := os.Getenv("EULER_KEEPALIVE_ID")
@@ -69,25 +68,21 @@ func GetProblemContent(problemId int) (int64, error) {
 			Value:  keepAliveId,
 			Domain: "projecteuler.net",
 		}
-		req = req.SetCookies(sessionCookie, keepAliveCookie)
+		req = req.SetCookies([]*http.Cookie{sessionCookie, keepAliveCookie})
 	}
 
 	resp, err := req.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer resp.RawBody().Close()
 
-	if !resp.IsSuccessState() {
-		log.Fatal(err)
-	}
-
-	body, err := resp.ToBytes()
-	if err != nil {
+	if !resp.IsSuccess() {
 		log.Fatal(err)
 	}
 
 	// Load the HTML document
-	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
+	doc, err := goquery.NewDocumentFromReader(resp.RawBody())
 	if err != nil {
 		log.Fatal(err)
 	}
