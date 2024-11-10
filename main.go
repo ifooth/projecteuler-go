@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/ifooth/projecteuler-go/euler"
@@ -43,21 +44,47 @@ func main() {
 	if showContent {
 		answer, err = euler.GetProblemContent(problemId)
 		if err != nil {
-			log.Println("not login", "duration", time.Since(st))
+			slog.Info("not login", "duration", time.Since(st))
 		} else {
-			log.Println("show content done", "duration", time.Since(st))
+			slog.Info("show content done", "duration", time.Since(st))
 		}
 	}
 
 	st = time.Now()
 	result, err := eulerProject.Calculate(problemId)
 	if err != nil {
-		log.Println(err, "duration", time.Since(st))
+		slog.Info("calculate failed", "duration", time.Since(st), "err", err)
 		os.Exit(0)
 	}
 	if err == nil {
-		log.Println(fmt.Sprintf("result %d(solve) = %d(euler) is %t", result, answer, result == answer), "duration", time.Since(st))
+		slog.Info(fmt.Sprintf("result %d(solve) = %d(euler) is %t", result, answer, result == answer), "duration", time.Since(st))
 		os.Exit(0)
 	}
-	log.Println(result, "duration", time.Since(st))
+	slog.Info("calculate done", "result", result, "duration", time.Since(st))
+}
+
+func init() {
+	textHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		AddSource:   true,
+		Level:       slog.LevelInfo,
+		ReplaceAttr: SourceAttr,
+	})
+	logger := slog.New(textHandler)
+	slog.SetDefault(logger)
+}
+
+// SourceAttr source 格式化为 dir/file:line 格式
+func SourceAttr(groups []string, a slog.Attr) slog.Attr {
+	if a.Key != slog.SourceKey {
+		return a
+	}
+
+	source, ok := a.Value.Any().(*slog.Source)
+	if !ok {
+		return a
+	}
+
+	dir, file := filepath.Split(source.File)
+	source.File = filepath.Join(filepath.Base(dir), file)
+	return a
 }
