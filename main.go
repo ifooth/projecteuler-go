@@ -80,11 +80,8 @@ func replaceAttrFunc(groups []string, a slog.Attr) slog.Attr {
 		return a
 	}
 
-	src, ok := a.Value.Any().(*slog.Source)
-	if !ok {
-		return a
+	if src, ok := a.Value.Any().(*slog.Source); ok {
+		a.Value = slog.StringValue(filepath.Base(src.File) + ":" + strconv.Itoa(src.Line))
 	}
-
-	a.Value = slog.StringValue(filepath.Base(src.File) + ":" + strconv.Itoa(src.Line))
 	return a
 }
