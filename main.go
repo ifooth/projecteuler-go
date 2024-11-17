@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/ifooth/projecteuler-go/euler"
@@ -67,24 +68,23 @@ func init() {
 	textHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource:   true,
 		Level:       slog.LevelInfo,
-		ReplaceAttr: SourceAttr,
+		ReplaceAttr: replaceAttrFunc,
 	})
 	logger := slog.New(textHandler)
 	slog.SetDefault(logger)
 }
 
 // SourceAttr source 格式化为 dir/file:line 格式
-func SourceAttr(groups []string, a slog.Attr) slog.Attr {
+func replaceAttrFunc(groups []string, a slog.Attr) slog.Attr {
 	if a.Key != slog.SourceKey {
 		return a
 	}
 
-	source, ok := a.Value.Any().(*slog.Source)
+	src, ok := a.Value.Any().(*slog.Source)
 	if !ok {
 		return a
 	}
 
-	dir, file := filepath.Split(source.File)
-	source.File = filepath.Join(filepath.Base(dir), file)
+	a.Value = slog.StringValue(filepath.Base(src.File) + ":" + strconv.Itoa(src.Line))
 	return a
 }
